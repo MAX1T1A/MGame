@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "Core Service"
+version = "0.1.0"
+description = ""
+package-mode = false
+authors = ["MAX1T1A <max1t1aldan@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+asyncpg = "^0.30.0"
+fastapi = "^0.115.12"
+uvicorn = "^0.34.2"
+websockets = "^15.0.1"
+redis = "^5.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

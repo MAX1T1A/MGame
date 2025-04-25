@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "mgame"
+version = "0.1.0"
+description = ""
+authors = ["MAX1T1A <max1t1aldan@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+asyncpg = "^0.30.0"
+fastapi = "^0.115.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,45 @@
+version: "3"
+
+vars:
+  ENV: "local"
+  ENV_FILE: "env/{{.ENV}}.sh"
+  COMPOSE_FILE: "docker/{{.ENV}}-docker-compose.yml"
+
+tasks:
+  migration-up:
+    decs: "Запуск миграции базы данных"
+    cmds:
+      - source {{.ENV_FILE}} && migrate -database $POSTGRESQL_URL -path src/app/db/migrations up
+
+  migration-down:
+    decs: "Откат миграции базы данных"
+    cmds:
+      - source {{.ENV_FILE}} && migrate -database $POSTGRESQL_URL -path src/app/db/migrations down
+
+  migration-generate:
+    decs: "Генерация миграции, пример: task migration-generate name=test_migration_name"
+    dir: src/app/db
+    vars:
+      name: "{{.name}}"
+    cmds:
+      - migrate create -ext sql -dir migrations "{{.name}}"
+  
+  run:
+    desc: "Запуск среды. Пример: task run ENV=local"
+    vars:
+      ENV: "{{.ENV}}"
+    cmds:
+      - source {{.ENV_FILE}} && docker compose -f {{.COMPOSE_FILE}} up -d
+
+  build:
+    desc: "Запуск среды с опцией сборки. Пример: task build ENV=local"
+    vars:
+      ENV: "{{.ENV}}"
+    cmds:
+      - source {{.ENV_FILE}} && docker compose -f {{.COMPOSE_FILE}} up --build -d
+
+
+  help:
+    desc: "Вывод списка доступных задач"
+    cmds:
+      - task --list
